@@ -9,8 +9,7 @@ RSpec.describe ActiveAdmin::ResourceController::Sidebars, type: :controller do
 
   context 'without skip_sidebar! before filter' do
     before do
-      ActiveAdmin.register Post
-      reload_routes!
+      load_resources { ActiveAdmin.register Post }
     end
 
     it 'does not set @skip_sidebar' do
@@ -22,10 +21,9 @@ RSpec.describe ActiveAdmin::ResourceController::Sidebars, type: :controller do
 
   context 'with skip_sidebar! before_filter' do
     before do
-      ActiveAdmin.register Post do
-        before_filter :skip_sidebar!
+      load_resources do
+        ActiveAdmin.register(Post) { before_filter :skip_sidebar! }
       end
-      reload_routes!
     end
 
     it 'works' do
