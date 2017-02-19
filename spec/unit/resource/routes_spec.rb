@@ -7,13 +7,15 @@ RSpec.describe ActiveAdmin::Resource::Routes do
     reload_routes!
   end
 
+  let(:application) { ActiveAdmin.application }
+
   context "when in the admin namespace" do
     before do
       load_resources { ActiveAdmin.register Category }
     end
 
     let(:config) do
-      ActiveAdmin.application.namespace(:admin).resource_for('Category')
+      application.namespace(:admin).resource_for('Category')
     end
 
     let(:category) { Category.new { |c| c.id = 123 } }
@@ -62,7 +64,7 @@ RSpec.describe ActiveAdmin::Resource::Routes do
     end
 
     let(:config) do
-      ActiveAdmin.application.namespace(:admin).resource_for('Post')
+      application.namespace(:admin).resource_for('Post')
     end
 
     let :post do
