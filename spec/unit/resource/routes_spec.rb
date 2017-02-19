@@ -35,6 +35,11 @@ RSpec.describe ActiveAdmin::Resource::Routes do
 
   context "when in the root namespace" do
     let!(:config) { ActiveAdmin.register Category, namespace: false }
+
+    after(:each) do
+      application.namespaces.instance_variable_get(:@namespaces).delete(:root)
+    end
+
     it "should have a nil route_prefix" do
       expect(config.route_prefix).to eq nil
     end
