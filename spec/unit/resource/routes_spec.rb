@@ -49,10 +49,15 @@ module ActiveAdmin
       end
 
       context "when the resource belongs to another resource" do
-        let! :config do
-          ActiveAdmin.register Post do
-            belongs_to :category
+        before do
+          load_resources do
+            ActiveAdmin.register(Category)
+            ActiveAdmin.register(Post) { belongs_to :category }
           end
+        end
+
+        let(:config) do
+          ActiveAdmin.application.namespace(:admin).resource_for('Post')
         end
 
         let :post do
@@ -61,8 +66,6 @@ module ActiveAdmin
             p.category = Category.new{ |c| c.id = 1 }
           end
         end
-
-        before{ reload_routes! }
 
         it "should nest the collection path" do
           expect(config.route_collection_path(category_id: 1)).to eq "/admin/categories/1/posts"
